@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 trait CanGetLoggedInUserTrait
 {
-    public function getLoggedInUser(): ?Authenticatable
+    private function getLoggedInUser(): ?Authenticatable
     {
         return auth()->user();
     }

@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 trait CanSendApiResponseTrait
 {
-    public function sendApiSuccessResponse(array|null $data = null, string|null $message = null, int $status = 200): JsonResponse
+    private function sendApiSuccessResponse(array|null $data = null, string|null $message = null, int $status = 200): JsonResponse
     {
         return response()->json(
             [
@@ -19,7 +19,7 @@ trait CanSendApiResponseTrait
         );
     }
 
-    public function sendApiErrorResponse(array|null $data = null, string|null $message = null, int $status = 500): JsonResponse
+    private function sendApiErrorResponse(array|null $data = null, string|null $message = null, int $status = 500): JsonResponse
     {
         return response()->json(
             [

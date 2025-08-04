@@ -1,9 +1,6 @@
 <?php
 
-$providers = [
+return [
     App\Providers\AppServiceProvider::class,
+    App\Providers\test::class,
 ];
-
-//dynamic
-
-return $providers;

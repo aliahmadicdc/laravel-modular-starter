@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Http\ForceJsonApiMiddleware;
 use App\Http\Middleware\Http\HttpsApiMiddleware;
+use App\Http\Middleware\Role\CheckAdminOrManagerRoleMiddleware;
 use App\Http\Middleware\Role\CheckAdminRoleMiddleware;
 use App\Http\Middleware\Role\CheckUserRoleMiddleware;
 use App\Http\Middleware\verify\CheckUserStatusMiddleware;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'auth.admin' => CheckAdminRoleMiddleware::class,
+            'auth.adminOrManager' => CheckAdminOrManagerRoleMiddleware::class,
             'auth.user' => CheckUserRoleMiddleware::class,
             'auth.userStatus' => CheckUserStatusMiddleware::class,
         ]);

@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
-class BaseCommand
+use Illuminate\Console\Command;
+
+class BaseCommand extends Command
 {
 
 }

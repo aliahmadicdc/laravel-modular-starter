@@ -2,63 +2,29 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
+use App\Console\BaseCommand;
+use App\Services\Modules\ModuleGenerator;
 
-class CreateModuleCommand extends Command
+class CreateModuleCommand extends BaseCommand
 {
-    protected $signature = 'make:module {path}';
+    protected $signature = 'make:module {name}';
 
-    protected $description = 'Create Module';
+    protected $description = 'Create new module';
 
     public function handle(): void
     {
-        $moduleDirectory = env('MODULES_FOLDER', 'Modules');
-        $selectedPath = str_replace('/', '\\', $this->argument('path'));
-        $selectedPath = $moduleDirectory . '\\' . $selectedPath;
+        $moduleGenerator = new ModuleGenerator();
+        $moduleName = $this->argument('name');
 
-        if (empty($selectedPath)) {
-            $this->error('Module path is empty');
+        if (empty($moduleName)) {
+            $this->error('Module name is empty');
         } else {
-            if ($this->isDirectoryExists($selectedPath)) {
+            $result = $moduleGenerator->createModule($moduleName);
+
+            if (!$result)
                 $this->error('Module already exists');
-            } else {
-                $this->createModuleDirectory($selectedPath);
-                $this->copyModuleSamplesToNewDirectory($moduleDirectory . '\\Sample', $selectedPath);
-                $this->replaceNameSpaces($selectedPath);
-
+            else
                 $this->info('Module created successfully');
-            }
-        }
-    }
-
-    private function isDirectoryExists(string $selectedPath):bool
-    {
-        return File::exists($selectedPath) ;
-    }
-
-    private function createModuleDirectory(string $selectedPath): void
-    {
-        File::makeDirectory(path: $selectedPath, recursive: true);
-    }
-
-    private function copyModuleSamplesToNewDirectory(string $moduleSampleDirectory, string $selectedPath): void
-    {
-        File::copyDirectory($moduleSampleDirectory, $selectedPath);
-    }
-
-    private function replaceNameSpaces(string $selectedPath): void
-    {
-        $oldNameSpace = 'Modules\Sample';
-        $files = File::allFiles($selectedPath);
-
-        foreach ($files as $file) {
-            $path = $file->getRealPath();
-            $content = File::get($path);
-
-            $content = str_replace($oldNameSpace, $selectedPath, $content);
-
-            File::put($path, $content);
         }
     }
 }

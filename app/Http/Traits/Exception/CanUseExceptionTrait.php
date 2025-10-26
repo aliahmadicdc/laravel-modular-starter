@@ -7,10 +7,7 @@ use Throwable;
 
 trait CanUseExceptionTrait
 {
-    /**
-     * @throws Throwable
-     */
-    private function runWithTrayCatch(
+    protected function runWithTryCatch(
         Closure  $closure,
         ?Closure $defaultCatch = null,
         array    $handlers = []
@@ -19,16 +16,15 @@ trait CanUseExceptionTrait
         try {
             return $closure();
         } catch (Throwable $exception) {
-            if ($defaultCatch)
-                return $defaultCatch($exception);
-
             foreach ($handlers as $class => $handler) {
                 if ($exception instanceof $class)
                     return $handler($exception);
             }
 
-            //log $exception
-            throw $exception;
+            if ($defaultCatch)
+                return $defaultCatch($exception);
+
+            return $this->sendApiErrorResponse();
         }
     }
 }

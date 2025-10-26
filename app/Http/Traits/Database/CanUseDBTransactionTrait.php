@@ -11,7 +11,7 @@ trait CanUseDBTransactionTrait
     /**
      * @throws Exception
      */
-    private function useTransaction(Closure $closure, int $attempts = 3)
+    protected function useTransaction(Closure $closure, int $attempts = 3)
     {
         $result = DB::transaction($closure, $attempts);
 
@@ -21,17 +21,17 @@ trait CanUseDBTransactionTrait
         return $result;
     }
 
-    private function beginTransaction(): void
+    protected function beginTransaction(): void
     {
         DB::beginTransaction();
     }
 
-    private function commit(): void
+    protected function commit(): void
     {
         DB::commit();
     }
 
-    private function rollBack(): void
+    protected function rollBack(): void
     {
         DB::rollBack();
     }

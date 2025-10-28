@@ -18,9 +18,4 @@ class EventServiceProvider extends BaseEventServiceProvider
     {
 
     }
-
-    public function shouldDiscoverEvents(): bool
-    {
-        return false;
-    }
 }

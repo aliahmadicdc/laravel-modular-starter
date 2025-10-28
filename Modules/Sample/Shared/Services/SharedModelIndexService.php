@@ -20,6 +20,5 @@ class SharedModelIndexService extends BaseService
             $models->where('value', 'LIKE', '%' . $data['value'] . '%');
 
         return $models->get();
-
     }
 }

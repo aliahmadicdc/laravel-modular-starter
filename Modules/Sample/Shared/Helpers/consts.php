@@ -1,3 +1,0 @@
-<?php
-
-const TEMP = 'TEMP';

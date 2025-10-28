@@ -27,17 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.userStatus' => CheckUserStatusMiddleware::class,
         ]);
 
-        $middleware->web([
+        $middleware->web(prepend: [
             ForceJsonApiMiddleware::class,
             HttpsApiMiddleware::class,
         ]);
 
-        $middleware->api([
+        $middleware->api(prepend: [
             ForceJsonApiMiddleware::class,
             HttpsApiMiddleware::class,
         ]);
-
-        //dynamic
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -2,22 +2,27 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\ModuleNameSpacesEnum;
+use App\Services\Modules\ModuleDiscover;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->callModulesSeeds();
+    }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    private function callModulesSeeds(): void
+    {
+        $modules = (new ModuleDiscover())->discover(
+            query: ModuleNameSpacesEnum::SEEDERS
+        );
+
+        foreach ($modules as $module) {
+            foreach ($module['files'] as $seed) {
+                $this->call($seed);
+            }
+        }
     }
 }

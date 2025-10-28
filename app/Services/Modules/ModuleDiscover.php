@@ -9,7 +9,8 @@ class ModuleDiscover extends BaseModule
     public function discover(
         string      $query,
         string|null $lookingForFile = null,
-        bool        $returnOnlyNameSpaces = false
+        bool        $returnOnlyNameSpaces = false,
+        bool        $returnOnlyDirectory = false
     ): array
     {
         $discoveredFiles = [];
@@ -19,13 +20,62 @@ class ModuleDiscover extends BaseModule
             $discoveredFiles[] = [
                 'module' => $this->extractModuleName($module),
                 'query' => $query,
-                'files' => $this->discoverDirectoryFiles(
-                    $module,
-                    $query,
-                    $lookingForFile,
-                    $returnOnlyNameSpaces
-                ),
+                'files' => !$returnOnlyDirectory
+                    ? $this->discoverDirectoryFiles(
+                        $module,
+                        $query,
+                        $lookingForFile,
+                        $returnOnlyNameSpaces
+                    )
+                    : null,
+                'directories' => $returnOnlyDirectory
+                    ? $this->discoverDirectory(
+                        $module,
+                        $query,
+                        $returnOnlyNameSpaces
+                    )
+                    : null
             ];
+        }
+
+        return $discoveredFiles;
+    }
+
+    private function discoverDirectory(
+        string $module,
+        string $query,
+        bool   $returnOnlyNameSpaces
+    ): array
+    {
+        $directories = [];
+
+        $sharedDirectory = $module . '\\Shared\\' . $query;
+        if (File::exists($sharedDirectory))
+            $directories[] = $sharedDirectory;
+
+        $frontDirectory = $module . '\\Front\\' . $query;
+        if (File::exists($frontDirectory))
+            $directories[] = $frontDirectory;
+
+        $panelNestedDirectory = $module . '\\Panel';
+        $panelDirectories = File::directories($panelNestedDirectory);
+
+        foreach ($panelDirectories as $directory) {
+            $panelDirectory = $directory . '\\' . $query;
+            if (File::exists($panelDirectory))
+                $directories[] = $panelDirectory;
+        }
+
+        $discoveredFiles = [];
+
+        foreach ($directories as $directory) {
+            $finalDirectoryPath = $this->fixPath(
+                $returnOnlyNameSpaces
+                    ? $this->extractModuleNameSpace($directory)
+                    : $directory
+            );
+
+            $discoveredFiles[] = $finalDirectoryPath;
         }
 
         return $discoveredFiles;

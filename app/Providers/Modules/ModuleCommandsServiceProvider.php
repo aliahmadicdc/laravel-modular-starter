@@ -20,7 +20,7 @@ class ModuleCommandsServiceProvider extends BaseModuleServiceProvider
 
         foreach ($modules as $module) {
             foreach ($module['files'] as $command) {
-                $this->commands([$command]);
+                $this->commands(str_replace('.php', '', $command));
             }
         }
 

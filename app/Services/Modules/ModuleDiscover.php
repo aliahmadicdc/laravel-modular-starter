@@ -2,10 +2,13 @@
 
 namespace App\Services\Modules;
 
+use App\Http\Traits\Modules\CanUseModuleCacheTrait;
 use Illuminate\Support\Facades\File;
 
 class ModuleDiscover extends BaseModule
 {
+    use CanUseModuleCacheTrait;
+
     public function discover(
         string      $query,
         string|null $lookingForFile = null,
@@ -15,6 +18,10 @@ class ModuleDiscover extends BaseModule
     {
         $discoveredFiles = [];
         $activeModules = $this->getActiveModules();
+        $fileCacheName = $query . ($lookingForFile ? '-' . $lookingForFile : '');
+
+        if ($this->alreadyCacheExists($fileCacheName))
+            return $this->getModuleCache($fileCacheName);
 
         foreach ($activeModules as $module) {
             $discoveredFiles[] = [
@@ -37,6 +44,8 @@ class ModuleDiscover extends BaseModule
                     : null
             ];
         }
+
+        $this->setModuleCache($fileCacheName, $discoveredFiles);
 
         return $discoveredFiles;
     }
@@ -134,6 +143,11 @@ class ModuleDiscover extends BaseModule
 
     private function getActiveModules(): array
     {
+        $activeModuleCacheQuery = 'active-modules';
+
+        if ($this->alreadyCacheExists($activeModuleCacheQuery))
+            return $this->getModuleCache($activeModuleCacheQuery);
+
         $activeModules = [];
         $modules = File::directories($this->moduleDefaultDirectoryBasePath);
 
@@ -142,11 +156,13 @@ class ModuleDiscover extends BaseModule
             $configFilePath = $module . '\\Shared\\Config\\config.php';
 
             if (File::exists($configFilePath)) {
-                $config = File::requireOnce($configFilePath);
+                $config = require $configFilePath;
                 if (isset($config['enabled']) && $config['enabled'])
                     $activeModules[] = $module;
             }
         }
+
+        $this->setModuleCache($activeModuleCacheQuery, $activeModules);
 
         return $activeModules;
     }

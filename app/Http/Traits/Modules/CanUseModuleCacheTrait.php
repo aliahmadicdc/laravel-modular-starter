@@ -8,23 +8,23 @@ trait CanUseModuleCacheTrait
 {
     private string $moduleCacheDirectory = 'module-cache';
 
-    private function alreadyCacheExists(string $query): bool
+    private function alreadyCacheExists(string $cacheFileName): bool
     {
-        return Storage::disk('local')->exists($this->generateCacheFilePath($query));
+        return Storage::disk('local')->exists($this->generateCacheFilePath($cacheFileName));
     }
 
-    private function setModuleCache(string $query, array $content): bool
+    private function setModuleCache(string $cacheFileName, array $content): bool
     {
-        return Storage::disk('local')->put($this->generateCacheFilePath($query), json_encode($content));
+        return Storage::disk('local')->put($this->generateCacheFilePath($cacheFileName), json_encode($content));
     }
 
-    private function getModuleCache(string $query): array
+    private function getModuleCache(string $cacheFileName): array
     {
-        return json_decode(Storage::disk('local')->get($this->generateCacheFilePath($query)), true);
+        return json_decode(Storage::disk('local')->get($this->generateCacheFilePath($cacheFileName)), true);
     }
 
-    private function generateCacheFilePath(string $query): string
+    private function generateCacheFilePath(string $cacheFileName): string
     {
-        return $this->moduleCacheDirectory . '\\' . str_replace('\\', '-', $query) . '.php';
+        return $this->moduleCacheDirectory . '\\' . strtolower(str_replace('\\', '-', $cacheFileName)) . '.php';
     }
 }

@@ -18,10 +18,10 @@ class ModuleDiscover extends BaseModule
     {
         $discoveredFiles = [];
         $activeModules = $this->getActiveModules();
-        $fileCacheName = $query . ($lookingForFile ? '-' . $lookingForFile : '');
+        $cacheFileName = $query . ($lookingForFile ? '-' . $lookingForFile : '');
 
-        if ($this->alreadyCacheExists($fileCacheName))
-            return $this->getModuleCache($fileCacheName);
+        if ($this->alreadyCacheExists($cacheFileName))
+            return $this->getModuleCache($cacheFileName);
 
         foreach ($activeModules as $module) {
             $discoveredFiles[] = [
@@ -45,7 +45,7 @@ class ModuleDiscover extends BaseModule
             ];
         }
 
-        $this->setModuleCache($fileCacheName, $discoveredFiles);
+        $this->setModuleCache($cacheFileName, $discoveredFiles);
 
         return $discoveredFiles;
     }

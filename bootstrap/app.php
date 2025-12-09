@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Http\ForceJsonApiMiddleware;
 use App\Http\Middleware\Http\HttpsApiMiddleware;
+use App\Http\Middleware\language\LanguageManagerMiddleware;
 use App\Http\Middleware\Role\CheckAdminOrManagerRoleMiddleware;
 use App\Http\Middleware\Role\CheckAdminRoleMiddleware;
 use App\Http\Middleware\Role\CheckUserRoleMiddleware;
@@ -36,6 +37,9 @@ return Application::configure(basePath: dirname(__DIR__))
             ForceJsonApiMiddleware::class,
             HttpsApiMiddleware::class,
         ]);
+
+        $middleware->appendToGroup('web', LanguageManagerMiddleware::class);
+        $middleware->appendToGroup('api', LanguageManagerMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

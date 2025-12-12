@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ModuleNameSpacesEnum;
+use App\Enums\Modules\ModuleNameSpacesEnum;
 use App\Services\Modules\ModuleDiscover;
 use Illuminate\Database\Seeder;
 

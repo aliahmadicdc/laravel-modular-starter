@@ -2,7 +2,7 @@
 
 namespace App\Providers\Modules;
 
-use App\Enums\ModuleNameSpacesEnum;
+use App\Enums\Modules\ModuleNameSpacesEnum;
 use Illuminate\Support\Facades\Route;
 
 class ModuleRoutesServiceProvider extends BaseModuleServiceProvider

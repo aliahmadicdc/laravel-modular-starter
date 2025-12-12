@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Enums\NotificationTypeEnum;
+use App\Enums\Notifications\NotificationTypeEnum;
 use App\Notifications\Channels\AppNotificationChannel;
 use App\Notifications\Channels\SmsNotificationChannel;
 use Illuminate\Bus\Queueable;

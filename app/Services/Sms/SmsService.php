@@ -2,9 +2,9 @@
 
 namespace App\Services\Sms;
 
-use App\Services\BaseService;
+use App\Services\BaseGlobalService;
 
-class SmsService extends BaseService
+class SmsService extends BaseGlobalService
 {
     private string $baseUrl = 'https://api.iranpayamak.com/ws/v1/sms/pattern';
 

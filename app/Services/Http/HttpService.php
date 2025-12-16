@@ -3,10 +3,10 @@
 namespace App\Services\Http;
 
 use App\Enums\Http\HttpRequestTypeEnum;
-use App\Services\BaseService;
+use App\Services\BaseGlobalService;
 use Illuminate\Support\Facades\Http;
 
-class HttpService extends BaseService
+class HttpService extends BaseGlobalService
 {
     public function sendRequest(
         string              $url,

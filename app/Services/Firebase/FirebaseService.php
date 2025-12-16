@@ -2,9 +2,9 @@
 
 namespace App\Services\Firebase;
 
-use App\Services\BaseService;
+use App\Services\BaseGlobalService;
 
-class FirebaseService extends BaseService
+class FirebaseService extends BaseGlobalService
 {
     public function sendNotification(string $title,string $text)
     {

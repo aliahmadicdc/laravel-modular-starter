@@ -2,7 +2,9 @@
 
 namespace App\Services\Modules;
 
-class BaseModule
+use App\Services\BaseGlobalService;
+
+class BaseModule extends BaseGlobalService
 {
     protected string $moduleDefaultDirectory;
     protected string $moduleDefaultDirectoryBasePath;

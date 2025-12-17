@@ -15,7 +15,7 @@ class ModuleRoutesServiceProvider extends BaseModuleServiceProvider
     private function registerRoutes(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::ROUTES,
+            query: ModuleNameSpacesEnum::ROUTES->value,
             lookingForFile: 'api'
         );
 
@@ -28,7 +28,7 @@ class ModuleRoutesServiceProvider extends BaseModuleServiceProvider
         }
 
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::ROUTES,
+            query: ModuleNameSpacesEnum::ROUTES->value,
             lookingForFile: 'web'
         );
 

@@ -21,10 +21,10 @@ class CreateModuleCommand extends BaseCommand
         } else {
             $result = $moduleGenerator->createModule($moduleName);
 
-            if (!$result)
-                $this->error('Module already exists');
-            else
+            if ($result)
                 $this->info('Module created successfully');
+            else
+                $this->error('Module already exists');
         }
     }
 }

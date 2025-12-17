@@ -14,7 +14,7 @@ class ModuleLangServiceProvider extends BaseModuleServiceProvider
     private function registerLang(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::LANG,
+            query: ModuleNameSpacesEnum::LANG->value,
             returnOnlyDirectory: true
         );
 

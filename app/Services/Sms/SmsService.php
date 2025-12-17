@@ -2,51 +2,46 @@
 
 namespace App\Services\Sms;
 
+use App\Enums\Http\HttpRequestTypeEnum;
+use App\Enums\Sms\SmsPatternCodeEnum;
 use App\Services\BaseGlobalService;
+use App\Services\Http\HttpService;
 
 class SmsService extends BaseGlobalService
 {
+    private HttpService $httpService;
     private string $baseUrl = 'https://api.iranpayamak.com/ws/v1/sms/pattern';
 
-    public function sendByPattern(string $to, array $data, string $pattern): bool|string
+    public function __construct()
     {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->baseUrl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "code": ' . $this->getPattern($pattern) . ',
-    "attributes":  ' . json_encode($data) . ',
-    "recipient": ' . $to . ',
-    "line_number": ' . env('SMS_SERVICE_FROM_NUMBER') . ',
-    "number_format": "english",
-}',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Api-Key: ' . env('SMS_SERVICE_API_KEY'),
-                'Content-Type: application/json'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        return $response;
+        $this->httpService = new HttpService();
     }
 
-    private function getPattern(string $key): string
+    public function sendByPattern(string $to, array $data, SmsPatternCodeEnum $patternCode): array
     {
-        $patterns = [
-            'verification' => ''
+        $params = [
+            'code' => $this->getPattern($patternCode),
+            'attributes' => $data,
+            'recipient' => $to,
+            'line_number' => env('SMS_SERVICE_FROM_NUMBER'),
+            'number_format' => 'english',
         ];
 
-        return $patterns[$key] ?? '';
+        return $this->httpService->sendRequest(
+            $this->baseUrl,
+            HttpRequestTypeEnum::POST,
+            $params,
+            true,
+            ['Api-Key' => env('SMS_SERVICE_API_KEY')]
+        );
+    }
+
+    private function getPattern(SmsPatternCodeEnum $patternCode): string
+    {
+        $patterns = [
+            SmsPatternCodeEnum::VERIFICATION->value => ''
+        ];
+
+        return $patterns[$patternCode->value] ?? '';
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Exception\CustomLogTypesEnum;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -54,7 +55,7 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            'channels' => explode(',', (string)env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
         ],
 
@@ -89,7 +90,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],
@@ -127,6 +128,33 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        CustomLogTypesEnum::LOG_SERVICE_INFO->value => [
+            'driver' => 'single',
+            'path' => storage_path('logs/log-service-info.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
+        CustomLogTypesEnum::LOG_SERVICE_WARNING->value => [
+            'driver' => 'single',
+            'path' => storage_path('logs/log-service-warning.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
+        CustomLogTypesEnum::LOG_SERVICE_ERROR->value => [
+            'driver' => 'single',
+            'path' => storage_path('logs/log-service-error.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
+        CustomLogTypesEnum::LOG_SERVICE_DEBUG->value => [
+            'driver' => 'single',
+            'path' => storage_path('logs/log-service-debug.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];

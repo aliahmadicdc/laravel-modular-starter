@@ -14,7 +14,7 @@ class ModuleProvidersServiceProvider extends BaseModuleServiceProvider
     private function registerProviders(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::PROVIDERS,
+            query: ModuleNameSpacesEnum::PROVIDERS->value,
             returnOnlyNameSpaces: true
         );
 

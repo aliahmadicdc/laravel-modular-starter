@@ -14,7 +14,7 @@ class ModuleConfigsServiceProvider extends BaseModuleServiceProvider
     private function registerConfigs(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::CONFIG,
+            query: ModuleNameSpacesEnum::CONFIG->value,
             lookingForFile: 'config'
         );
 

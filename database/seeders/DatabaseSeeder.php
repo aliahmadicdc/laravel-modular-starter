@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     private function callModulesSeeds(): void
     {
         $modules = (new ModuleDiscover())->discover(
-            query: ModuleNameSpacesEnum::SEEDERS
+            query: ModuleNameSpacesEnum::SEEDERS->value
         );
 
         foreach ($modules as $module) {

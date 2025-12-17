@@ -14,7 +14,7 @@ class ModuleCommandsServiceProvider extends BaseModuleServiceProvider
     private function registerCommands(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::CONSOLE,
+            query: ModuleNameSpacesEnum::CONSOLE->value,
             returnOnlyNameSpaces: true
         );
 
@@ -25,7 +25,7 @@ class ModuleCommandsServiceProvider extends BaseModuleServiceProvider
         }
 
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::ROUTES,
+            query: ModuleNameSpacesEnum::ROUTES->value,
             lookingForFile: 'console'
         );
 

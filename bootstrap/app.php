@@ -29,8 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->web(prepend: [
-            ForceJsonApiMiddleware::class,
-            HttpsApiMiddleware::class,
+            HttpsApiMiddleware::class
         ]);
 
         $middleware->api(prepend: [

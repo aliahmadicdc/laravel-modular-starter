@@ -3,6 +3,7 @@
 namespace App\Http\Traits\Exception;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 trait CanUseExceptionTrait

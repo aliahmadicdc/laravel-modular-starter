@@ -14,7 +14,7 @@ class ModuleHelpersServiceProvider extends BaseModuleServiceProvider
     private function registerHelpers(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::HELPERS,
+            query: ModuleNameSpacesEnum::HELPERS->value,
             lookingForFile: 'functions'
         );
 

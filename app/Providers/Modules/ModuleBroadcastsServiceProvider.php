@@ -14,7 +14,7 @@ class ModuleBroadcastsServiceProvider extends BaseModuleServiceProvider
     private function registerBroadcasts(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::ROUTES,
+            query: ModuleNameSpacesEnum::ROUTES->value,
             lookingForFile: 'channels'
         );
 

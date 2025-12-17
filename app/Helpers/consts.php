@@ -1,6 +1,5 @@
 <?php
 
-
 const API_VERSION_PREFIX = 'v1';
 const API_VERSION_NAME = 'v1.';
 const BACKEND_PREFIX = 'backend';

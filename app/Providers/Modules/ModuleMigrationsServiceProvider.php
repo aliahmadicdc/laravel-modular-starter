@@ -14,7 +14,7 @@ class ModuleMigrationsServiceProvider extends BaseModuleServiceProvider
     private function registerMigrations(): void
     {
         $modules = $this->moduleDiscover->discover(
-            query: ModuleNameSpacesEnum::MIGRATIONS
+            query: ModuleNameSpacesEnum::MIGRATIONS->value
         );
 
         foreach ($modules as $module) {

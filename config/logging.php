@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Exception\CustomLogTypesEnum;
+use App\Enums\Log\LogTypeEnum;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -128,33 +129,34 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        CustomLogTypesEnum::LOG_SERVICE_INFO->value => [
+        LogTypeEnum::INFO->value => [
             'driver' => 'single',
             'path' => storage_path('logs/log-service-info.log'),
             'level' => 'debug',
             'replace_placeholders' => true,
         ],
 
-        CustomLogTypesEnum::LOG_SERVICE_WARNING->value => [
+        LogTypeEnum::WARNING->value => [
             'driver' => 'single',
             'path' => storage_path('logs/log-service-warning.log'),
             'level' => 'debug',
             'replace_placeholders' => true,
         ],
 
-        CustomLogTypesEnum::LOG_SERVICE_ERROR->value => [
+        LogTypeEnum::ERROR->value => [
             'driver' => 'single',
             'path' => storage_path('logs/log-service-error.log'),
             'level' => 'debug',
             'replace_placeholders' => true,
         ],
 
-        CustomLogTypesEnum::LOG_SERVICE_DEBUG->value => [
+        LogTypeEnum::DEBUG->value => [
             'driver' => 'single',
             'path' => storage_path('logs/log-service-debug.log'),
             'level' => 'debug',
             'replace_placeholders' => true,
         ],
+
     ],
 
 ];
